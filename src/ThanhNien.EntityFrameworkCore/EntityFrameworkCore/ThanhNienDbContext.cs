@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ThanhNien.Users;
+using ThanhNien.Questions;
+using ThanhNien.UserResults; 
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -20,7 +21,10 @@ namespace ThanhNien.EntityFrameworkCore
     [ConnectionStringName("Default")]
     public class ThanhNienDbContext : AbpDbContext<ThanhNienDbContext>
     {
-        public DbSet<AppUser> Users { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Result> Results { get; set; }
+        public DbSet<UserResult> UserResults { get; set; }
 
         /* Add DbSet properties for your Aggregate Roots / Entities here.
          * Also map them inside ThanhNienDbContextModelCreatingExtensions.ConfigureThanhNien
@@ -37,18 +41,6 @@ namespace ThanhNien.EntityFrameworkCore
             base.OnModelCreating(builder);
 
             /* Configure the shared tables (with included modules) here */
-
-            builder.Entity<AppUser>(b =>
-            {
-                b.ToTable(AbpIdentityDbProperties.DbTablePrefix + "Users"); //Sharing the same table "AbpUsers" with the IdentityUser
-                
-                b.ConfigureByConvention();
-                b.ConfigureAbpUser();
-
-                /* Configure mappings for your additional properties
-                 * Also see the ThanhNienEfCoreEntityExtensionMappings class
-                 */
-            });
 
             /* Configure your own tables/entities inside the ConfigureThanhNien method */
 

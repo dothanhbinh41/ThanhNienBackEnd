@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ThanhNien.Questions;
+using ThanhNien.UserResults;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace ThanhNien.EntityFrameworkCore
 {
@@ -11,12 +14,26 @@ namespace ThanhNien.EntityFrameworkCore
 
             /* Configure your own tables/entities inside here */
 
-            //builder.Entity<YourEntity>(b =>
-            //{
-            //    b.ToTable(ThanhNienConsts.DbTablePrefix + "YourEntities", ThanhNienConsts.DbSchema);
-            //    b.ConfigureByConvention(); //auto configure for the base class props
-            //    //...
-            //});
+            builder.Entity<Question>(b =>
+            {
+                b.ToTable(ThanhNienConsts.DbTablePrefix + "Questions", ThanhNienConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props 
+            });
+            builder.Entity<Answer>(b =>
+            {
+                b.ToTable(ThanhNienConsts.DbTablePrefix + "Answers", ThanhNienConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props 
+            });
+            builder.Entity<Result>(b =>
+            {
+                b.ToTable(ThanhNienConsts.DbTablePrefix + "Results", ThanhNienConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props 
+            });
+            builder.Entity<UserResult>(b =>
+            {
+                b.ToTable(ThanhNienConsts.DbTablePrefix + "UserResults", ThanhNienConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props 
+            });
         }
     }
 }
