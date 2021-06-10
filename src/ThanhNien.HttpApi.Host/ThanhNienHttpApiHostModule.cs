@@ -28,6 +28,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using ThanhNien.Options;
 
 namespace ThanhNien
 {
@@ -51,7 +52,7 @@ namespace ThanhNien
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
-
+            context.Services.Configure<AppOptions>(configuration);
             ConfigureBundles();
             ConfigureUrls(configuration);
             ConfigureConventionalControllers();
@@ -143,7 +144,7 @@ namespace ThanhNien
                 },
                 options =>
                 {
-                    options.SwaggerDoc("v1", new OpenApiInfo {Title = "ThanhNien API", Version = "v1"});
+                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "ThanhNien API", Version = "v1" });
                     options.DocInclusionPredicate((docName, description) => true);
                     options.CustomSchemaIds(type => type.FullName);
                 });

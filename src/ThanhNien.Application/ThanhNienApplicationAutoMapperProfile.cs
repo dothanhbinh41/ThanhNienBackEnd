@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using ThanhNien.Questions;
+using ThanhNien.Questions.Dtos;
+using ThanhNien.UserResults;
 
 namespace ThanhNien
 {
@@ -9,6 +12,12 @@ namespace ThanhNien
             /* You can configure your AutoMapper mapping configuration here.
              * Alternatively, you can split your mapping configurations
              * into multiple profile classes for a better organization. */
+            CreateMap<CreateQuestionDto, Question>();
+            CreateMap<CreateAnswerDto, Answer>();
+            CreateMap<UserResult, UserResultDto>();
+            CreateMap<Question, QuestionDto>();
+            CreateMap<Answer, AnswerDto>();
+            CreateMap<CreateAnswerDto, Answer>();
         }
     }
 }

@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThanhNien.Options;
 using ThanhNien.Questions.Dtos;
 using ThanhNien.UserResults;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Settings;
 
 namespace ThanhNien.Questions
 {
@@ -20,17 +23,20 @@ namespace ThanhNien.Questions
         readonly IRepository<UserResult> userResultRepository;
         readonly IRepository<Result> resultRepository;
         Random rd;
+        int count = 30;
         public QuestionAppService(
             IRepository<Question> questionRepository,
             IRepository<Answer> answerRepository,
             IRepository<UserResult> userResultRepository,
-            IRepository<Result> resultRepository
+            IRepository<Result> resultRepository,
+            IOptions<AppOptions> options
             )
         {
             this.questionRepository = questionRepository;
             this.answerRepository = answerRepository;
             this.userResultRepository = userResultRepository;
             this.resultRepository = resultRepository;
+            count = options.Value.Question.Count;
             rd = new Random();
         }
 
@@ -52,7 +58,7 @@ namespace ThanhNien.Questions
         {
             var lst = new List<Question>();
             var questions = (await questionRepository.WithDetailsAsync(d => d.Answers)).ToList();
-            while (lst.Count < 30)
+            while (lst.Count < count)
             {
                 var index = rd.Next(0, questions.Count);
                 var obj = questions.ElementAt(index);
