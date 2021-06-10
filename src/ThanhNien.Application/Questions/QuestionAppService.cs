@@ -50,7 +50,7 @@ namespace ThanhNien.Questions
 
         public async Task<PagedResultDto<UserResultDto>> GetAllUserResultsAsync(PagedResultRequestDto request)
         {
-            var result = userResultRepository.OrderByDescending(d => d.Mark).ThenBy(d => d.Time).PageBy(request.SkipCount, request.MaxResultCount).ToList();
+            var result = userResultRepository.OrderByDescending(d => d.Mark).ThenBy(d => d.Time).PageBy(request.SkipCount,request.MaxResultCount).ToList();
             return new PagedResultDto<UserResultDto>(userResultRepository.Count(), ObjectMapper.Map<List<UserResult>, List<UserResultDto>>(result));
         }
 
@@ -85,7 +85,7 @@ namespace ThanhNien.Questions
                 throw new UserFriendlyException("Ban da nop bai");
             }
             var mark = await CalculateMark(request.Answers);
-            var user = await userResultRepository.InsertAsync(new UserResult { Name = request.Name, Phone = request.Phone, Time = request.Time, Mark = mark });
+            var user = await userResultRepository.InsertAsync(new UserResult { Name = request.Name, Phone = request.Phone, Time = request.Time, Mark = mark }, true);
 
             await resultRepository.InsertManyAsync(request.Answers.Select(d => new Result { UserResultId = user.Id, QuestionId = d.QuestionId, AnswerId = d.AnswerId }));
 
