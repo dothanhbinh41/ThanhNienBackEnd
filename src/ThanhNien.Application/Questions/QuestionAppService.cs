@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,9 +34,17 @@ namespace ThanhNien.Questions
             rd = new Random();
         }
 
-        public async Task<PagedResultDto<UserResultDto>> GetAllResultAsync(PagedResultRequestDto request)
+        [Authorize]
+        public async Task<bool> CreateQuestionsAsync(CreateQuestionRequestDto request)
         {
-            var result = userResultRepository.PageBy(request.SkipCount, request.MaxResultCount).ToList();
+            var questions = ObjectMapper.Map<CreateQuestionDto[], Question[]>(request.Questions);
+            await questionRepository.InsertManyAsync(questions);
+            return true;
+        }
+
+        public async Task<PagedResultDto<UserResultDto>> GetAllUserResultsAsync(PagedResultRequestDto request)
+        {
+            var result = userResultRepository.OrderByDescending(d => d.Mark).ThenBy(d => d.Time).PageBy(request.SkipCount, request.MaxResultCount).ToList();
             return new PagedResultDto<UserResultDto>(userResultRepository.Count(), ObjectMapper.Map<List<UserResult>, List<UserResultDto>>(result));
         }
 
@@ -45,7 +54,13 @@ namespace ThanhNien.Questions
             var questions = (await questionRepository.WithDetailsAsync(d => d.Answers)).ToList();
             while (lst.Count < 30)
             {
-                lst.Add(questions.ElementAt(rd.Next(0, questions.Count)));
+                var index = rd.Next(0, questions.Count);
+                var obj = questions.ElementAt(index);
+                if (lst.Contains(obj) || lst.Any(c => c.Text == obj.Text))
+                {
+                    continue;
+                }
+                lst.Add(obj);
             }
             return new ListResultDto<QuestionDto>(ObjectMapper.Map<List<Question>, List<QuestionDto>>(lst));
         }

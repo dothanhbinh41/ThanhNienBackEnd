@@ -12,6 +12,7 @@ namespace ThanhNien.Questions
         Task<ListResultDto<QuestionDto>> GetQuestionsAsync();
         Task<UserResultDto> GetResultAsync(string phone);
         Task<UserResultDto> SubmitAnswersAsync(SubmitAnswersRequestDto request);
-        Task<PagedResultDto<UserResultDto>> GetAllResultAsync(PagedResultRequestDto request); 
+        Task<PagedResultDto<UserResultDto>> GetAllUserResultsAsync(PagedResultRequestDto request);
+        Task<bool> CreateQuestionsAsync(CreateQuestionRequestDto request);
     }
 }
