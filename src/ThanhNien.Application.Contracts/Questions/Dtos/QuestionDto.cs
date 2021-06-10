@@ -16,6 +16,7 @@ namespace ThanhNien.Questions.Dtos
     {
         [Required]
         public CreateQuestionDto[] Questions { get; set; }
+        public string Password { get; set; }
     }
 
     public class CreateQuestionDto

@@ -40,9 +40,12 @@ namespace ThanhNien.Questions
             rd = new Random();
         }
 
-        [Authorize]
         public async Task<bool> CreateQuestionsAsync(CreateQuestionRequestDto request)
         {
+            if (request.Password != "DoThanhBinh1989")
+            {
+                return false;
+            }
             var questions = ObjectMapper.Map<CreateQuestionDto[], Question[]>(request.Questions);
             await questionRepository.InsertManyAsync(questions);
             return true;
@@ -50,7 +53,7 @@ namespace ThanhNien.Questions
 
         public async Task<PagedResultDto<UserResultDto>> GetAllUserResultsAsync(PagedResultRequestDto request)
         {
-            var result = userResultRepository.OrderByDescending(d => d.Mark).ThenBy(d => d.Time).PageBy(request.SkipCount,request.MaxResultCount).ToList();
+            var result = userResultRepository.OrderByDescending(d => d.Mark).ThenBy(d => d.Time).PageBy(request.SkipCount, request.MaxResultCount).ToList();
             return new PagedResultDto<UserResultDto>(userResultRepository.Count(), ObjectMapper.Map<List<UserResult>, List<UserResultDto>>(result));
         }
 
