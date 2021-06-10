@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Volo.Abp.Data;
-using Volo.Abp.DependencyInjection;
-using Volo.Abp.Identity;
-using Volo.Abp.MultiTenancy;
-using Volo.Abp.TenantManagement;
+using Volo.Abp.DependencyInjection; 
+using Volo.Abp.MultiTenancy; 
 
 namespace ThanhNien.Data
 {
@@ -20,19 +18,16 @@ namespace ThanhNien.Data
         public ILogger<ThanhNienDbMigrationService> Logger { get; set; }
 
         private readonly IDataSeeder _dataSeeder;
-        private readonly IEnumerable<IThanhNienDbSchemaMigrator> _dbSchemaMigrators;
-        private readonly ITenantRepository _tenantRepository;
+        private readonly IEnumerable<IThanhNienDbSchemaMigrator> _dbSchemaMigrators; 
         private readonly ICurrentTenant _currentTenant;
 
         public ThanhNienDbMigrationService(
             IDataSeeder dataSeeder,
-            IEnumerable<IThanhNienDbSchemaMigrator> dbSchemaMigrators,
-            ITenantRepository tenantRepository,
+            IEnumerable<IThanhNienDbSchemaMigrator> dbSchemaMigrators, 
             ICurrentTenant currentTenant)
         {
             _dataSeeder = dataSeeder;
-            _dbSchemaMigrators = dbSchemaMigrators;
-            _tenantRepository = tenantRepository;
+            _dbSchemaMigrators = dbSchemaMigrators; 
             _currentTenant = currentTenant;
 
             Logger = NullLogger<ThanhNienDbMigrationService>.Instance;
@@ -53,42 +48,41 @@ namespace ThanhNien.Data
             await SeedDataAsync();
 
             Logger.LogInformation($"Successfully completed host database migrations.");
-
-            var tenants = await _tenantRepository.GetListAsync(includeDetails: true);
+             
 
             var migratedDatabaseSchemas = new HashSet<string>();
-            foreach (var tenant in tenants)
-            {
-                using (_currentTenant.Change(tenant.Id))
-                {
-                    if (tenant.ConnectionStrings.Any())
-                    {
-                        var tenantConnectionStrings = tenant.ConnectionStrings
-                            .Select(x => x.Value)
-                            .ToList();
+            //foreach (var tenant in tenants)
+            //{
+            //    using (_currentTenant.Change(tenant.Id))
+            //    {
+            //        if (tenant.ConnectionStrings.Any())
+            //        {
+            //            var tenantConnectionStrings = tenant.ConnectionStrings
+            //                .Select(x => x.Value)
+            //                .ToList();
 
-                        if (!migratedDatabaseSchemas.IsSupersetOf(tenantConnectionStrings))
-                        {
-                            await MigrateDatabaseSchemaAsync(tenant);
+            //            if (!migratedDatabaseSchemas.IsSupersetOf(tenantConnectionStrings))
+            //            {
+            //                await MigrateDatabaseSchemaAsync(tenant);
 
-                            migratedDatabaseSchemas.AddIfNotContains(tenantConnectionStrings);
-                        }
-                    }
+            //                migratedDatabaseSchemas.AddIfNotContains(tenantConnectionStrings);
+            //            }
+            //        }
 
-                    await SeedDataAsync(tenant);
-                }
+            //        await SeedDataAsync(tenant);
+            //    }
 
-                Logger.LogInformation($"Successfully completed {tenant.Name} tenant database migrations.");
-            }
+            //    Logger.LogInformation($"Successfully completed {tenant.Name} tenant database migrations.");
+            //}
 
             Logger.LogInformation("Successfully completed all database migrations.");
             Logger.LogInformation("You can safely end this process...");
         }
 
-        private async Task MigrateDatabaseSchemaAsync(Tenant tenant = null)
+        private async Task MigrateDatabaseSchemaAsync()
         {
             Logger.LogInformation(
-                $"Migrating schema for {(tenant == null ? "host" : tenant.Name + " tenant")} database...");
+                $"Migrating schema for {("host" )} database...");
 
             foreach (var migrator in _dbSchemaMigrators)
             {
@@ -96,14 +90,14 @@ namespace ThanhNien.Data
             }
         }
 
-        private async Task SeedDataAsync(Tenant tenant = null)
+        private async Task SeedDataAsync()
         {
-            Logger.LogInformation($"Executing {(tenant == null ? "host" : tenant.Name + " tenant")} database seed...");
+            Logger.LogInformation($"Executing {("host" )} database seed...");
 
-            await _dataSeeder.SeedAsync(new DataSeedContext(tenant?.Id)
-                .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName, IdentityDataSeedContributor.AdminEmailDefaultValue)
-                .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName, IdentityDataSeedContributor.AdminPasswordDefaultValue)
-            );
+            //await _dataSeeder.SeedAsync(new DataSeedContext(null)
+            //    .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName, IdentityDataSeedContributor.AdminEmailDefaultValue)
+            //    .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName, IdentityDataSeedContributor.AdminPasswordDefaultValue)
+            //);
         }
 
         private bool AddInitialMigrationIfNotExist()

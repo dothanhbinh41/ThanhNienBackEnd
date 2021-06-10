@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using Microsoft.Extensions.Configuration;
-using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
@@ -11,8 +10,7 @@ using Volo.Abp.IdentityServer.ApiResources;
 using Volo.Abp.IdentityServer.ApiScopes;
 using Volo.Abp.IdentityServer.Clients;
 using Volo.Abp.IdentityServer.IdentityResources;
-using Volo.Abp.MultiTenancy;
-using Volo.Abp.PermissionManagement;
+using Volo.Abp.MultiTenancy; 
 using Volo.Abp.Uow;
 using ApiResource = Volo.Abp.IdentityServer.ApiResources.ApiResource;
 using ApiScope = Volo.Abp.IdentityServer.ApiScopes.ApiScope;
@@ -26,8 +24,7 @@ namespace ThanhNien.IdentityServer
         private readonly IApiScopeRepository _apiScopeRepository;
         private readonly IClientRepository _clientRepository;
         private readonly IIdentityResourceDataSeeder _identityResourceDataSeeder;
-        private readonly IGuidGenerator _guidGenerator;
-        private readonly IPermissionDataSeeder _permissionDataSeeder;
+        private readonly IGuidGenerator _guidGenerator; 
         private readonly IConfiguration _configuration;
         private readonly ICurrentTenant _currentTenant;
 
@@ -36,8 +33,7 @@ namespace ThanhNien.IdentityServer
             IApiResourceRepository apiResourceRepository,
             IApiScopeRepository apiScopeRepository,
             IIdentityResourceDataSeeder identityResourceDataSeeder,
-            IGuidGenerator guidGenerator,
-            IPermissionDataSeeder permissionDataSeeder,
+            IGuidGenerator guidGenerator, 
             IConfiguration configuration,
             ICurrentTenant currentTenant)
         {
@@ -45,8 +41,7 @@ namespace ThanhNien.IdentityServer
             _apiResourceRepository = apiResourceRepository;
             _apiScopeRepository = apiScopeRepository;
             _identityResourceDataSeeder = identityResourceDataSeeder;
-            _guidGenerator = guidGenerator;
-            _permissionDataSeeder = permissionDataSeeder;
+            _guidGenerator = guidGenerator; 
             _configuration = configuration;
             _currentTenant = currentTenant;
         }
@@ -263,12 +258,12 @@ namespace ThanhNien.IdentityServer
 
             if (permissions != null)
             {
-                await _permissionDataSeeder.SeedAsync(
-                    ClientPermissionValueProvider.ProviderName,
-                    name,
-                    permissions,
-                    null
-                );
+                //await _permissionDataSeeder.SeedAsync(
+                //    ClientPermissionValueProvider.ProviderName,
+                //    name,
+                //    permissions,
+                //    null
+                //);
             }
 
             if (corsOrigins != null)

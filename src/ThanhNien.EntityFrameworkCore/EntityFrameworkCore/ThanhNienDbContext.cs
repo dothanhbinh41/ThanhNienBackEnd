@@ -4,8 +4,7 @@ using ThanhNien.UserResults;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Modeling;
-using Volo.Abp.Identity;
-using Volo.Abp.Users.EntityFrameworkCore;
+using Volo.Abp.Identity; 
 
 namespace ThanhNien.EntityFrameworkCore
 {

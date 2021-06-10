@@ -1,23 +1,13 @@
 ﻿using Localization.Resources.AbpUi;
-using ThanhNien.Localization;
-using Volo.Abp.Account;
-using Volo.Abp.FeatureManagement;
-using Volo.Abp.Identity;
+using ThanhNien.Localization; 
 using Volo.Abp.Localization;
-using Volo.Abp.Modularity;
-using Volo.Abp.PermissionManagement.HttpApi;
-using Volo.Abp.SettingManagement;
-using Volo.Abp.TenantManagement;
+using Volo.Abp.Modularity; 
+using Volo.Abp.SettingManagement; 
 
 namespace ThanhNien
 {
     [DependsOn(
-        typeof(ThanhNienApplicationContractsModule),
-        typeof(AbpAccountHttpApiModule),
-        typeof(AbpIdentityHttpApiModule),
-        typeof(AbpPermissionManagementHttpApiModule),
-        typeof(AbpTenantManagementHttpApiModule),
-        typeof(AbpFeatureManagementHttpApiModule),
+        typeof(ThanhNienApplicationContractsModule), 
         typeof(AbpSettingManagementHttpApiModule)
         )]
     public class ThanhNienHttpApiModule : AbpModule

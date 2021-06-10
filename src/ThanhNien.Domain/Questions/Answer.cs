@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace ThanhNien.Questions
 {
-    public class Answer : FullAuditedEntity<int>
+    public class Answer : Entity<int>
     {
         public int QuestionId { get; set; }
         public string Text { get; set; }
