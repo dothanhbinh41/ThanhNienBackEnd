@@ -21,6 +21,8 @@ namespace ThanhNien.Questions.Dtos
 
     public class SubmitAnswersRequestDto
     {
+        public string Class { get; set; }
+        public string StudentCode { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
         [Required]

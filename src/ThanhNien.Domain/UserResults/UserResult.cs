@@ -13,6 +13,8 @@ namespace ThanhNien.UserResults
     {
         public string Phone { get; set; }
         public string Name { get; set; }
+        public string Class { get; set; }
+        public string StudentCode { get; set; }
         public long Time { get; set; }// second
         public int? Mark { get; set; }
         public virtual ICollection<Result> Results { get; set; }

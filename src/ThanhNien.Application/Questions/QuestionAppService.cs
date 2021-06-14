@@ -88,7 +88,7 @@ namespace ThanhNien.Questions
                 throw new UserFriendlyException("Ban da nop bai");
             }
             var mark = await CalculateMark(request.Answers);
-            var user = await userResultRepository.InsertAsync(new UserResult { Name = request.Name, Phone = request.Phone, Time = request.Time, Mark = mark }, true);
+            var user = await userResultRepository.InsertAsync(new UserResult { Name = request.Name, Phone = request.Phone, Time = request.Time, Mark = mark, Class = request.Class, StudentCode = request.StudentCode }, true);
 
             await resultRepository.InsertManyAsync(request.Answers.Select(d => new Result { UserResultId = user.Id, QuestionId = d.QuestionId, AnswerId = d.AnswerId }));
 
