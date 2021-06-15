@@ -71,6 +71,10 @@ namespace ThanhNien.Questions
                 }
                 lst.Add(obj);
             }
+            for (int i = 0; i < lst.Count; i++)
+            {
+                lst[i].Answers = lst[i].Answers.OrderBy(d => d.Text).ToList();
+            }
             return new ListResultDto<QuestionDto>(ObjectMapper.Map<List<Question>, List<QuestionDto>>(lst));
         }
 
@@ -88,7 +92,7 @@ namespace ThanhNien.Questions
                 throw new UserFriendlyException("Ban da nop bai");
             }
             var mark = await CalculateMark(request.Answers);
-            var user = await userResultRepository.InsertAsync(new UserResult { Name = request.Name, Phone = request.Phone, Time = request.Time, Mark = mark, Class = request.Class, StudentCode = request.StudentCode }, true);
+            var user = await userResultRepository.InsertAsync(new UserResult { Name = request.Name, Phone = request.Phone, Time = request.Time, Mark = mark, Class = request.Classroom, StudentCode = request.StudentId }, true);
 
             await resultRepository.InsertManyAsync(request.Answers.Select(d => new Result { UserResultId = user.Id, QuestionId = d.QuestionId, AnswerId = d.AnswerId }));
 

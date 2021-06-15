@@ -14,7 +14,9 @@ namespace ThanhNien
              * into multiple profile classes for a better organization. */
             CreateMap<CreateQuestionDto, Question>();
             CreateMap<CreateAnswerDto, Answer>();
-            CreateMap<UserResult, UserResultDto>();
+            CreateMap<UserResult, UserResultDto>()
+                .ForMember(d => d.Classroom, d => d.MapFrom(c => c.Class))
+                .ForMember(d => d.StudentId, d => d.MapFrom(c => c.StudentCode));
             CreateMap<Question, QuestionDto>();
             CreateMap<Answer, AnswerDto>();
             CreateMap<CreateAnswerDto, Answer>();

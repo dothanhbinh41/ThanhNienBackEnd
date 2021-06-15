@@ -7,6 +7,8 @@ namespace ThanhNien.Questions.Dtos
 {
     public class UserResultDto
     {
+        public string Classroom { get; set; }
+        public string StudentId { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
         public long Time { get; set; }
@@ -21,8 +23,8 @@ namespace ThanhNien.Questions.Dtos
 
     public class SubmitAnswersRequestDto
     {
-        public string Class { get; set; }
-        public string StudentCode { get; set; }
+        public string Classroom { get; set; }
+        public string StudentId { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
         [Required]
