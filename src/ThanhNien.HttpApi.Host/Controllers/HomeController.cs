@@ -7,7 +7,14 @@ namespace ThanhNien.Controllers
     {
         public ActionResult Index()
         {
-            return Redirect("~/swagger");
+            return new ObjectResult("");
+        }
+
+
+        [Route("/.well-known/openid-configuration")]
+        public ActionResult FixError()
+        {
+            return new ObjectResult("");
         }
     }
 }

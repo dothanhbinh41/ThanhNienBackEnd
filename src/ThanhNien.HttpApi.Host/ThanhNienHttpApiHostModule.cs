@@ -82,7 +82,7 @@ namespace ThanhNien
                 options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"].Split(','));
 
                 options.Applications["Angular"].RootUrl = configuration["App:ClientUrl"];
-               // options.Applications["Angular"].Urls[AccountUrlNames.PasswordReset] = "account/reset-password";
+                // options.Applications["Angular"].Urls[AccountUrlNames.PasswordReset] = "account/reset-password";
             });
         }
 
@@ -222,19 +222,18 @@ namespace ThanhNien
             }
 
             app.UseUnitOfWork();
-            app.UseIdentityServer();
-            app.UseAuthorization();
+            //app.UseIdentityServer();
+            //app.UseAuthorization(); 
+            //app.UseSwagger();
+            //app.UseAbpSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ThanhNien API");
 
-            app.UseSwagger();
-            app.UseAbpSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ThanhNien API");
-
-                var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-                c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                c.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-                c.OAuthScopes("ThanhNien");
-            });
+            //    var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+            //    c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+            //    c.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+            //    c.OAuthScopes("ThanhNien");
+            //});
 
             app.UseAuditing();
             app.UseAbpSerilogEnrichers();
