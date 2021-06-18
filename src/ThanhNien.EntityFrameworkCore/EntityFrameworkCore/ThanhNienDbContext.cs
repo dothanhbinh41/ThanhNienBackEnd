@@ -24,6 +24,7 @@ namespace ThanhNien.EntityFrameworkCore
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Result> Results { get; set; }
         public DbSet<UserResult> UserResults { get; set; }
+        public DbSet<ResultTime> ResultTimes { get; set; }
 
         /* Add DbSet properties for your Aggregate Roots / Entities here.
          * Also map them inside ThanhNienDbContextModelCreatingExtensions.ConfigureThanhNien

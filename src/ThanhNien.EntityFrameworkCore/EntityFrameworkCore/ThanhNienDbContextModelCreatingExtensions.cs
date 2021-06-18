@@ -34,6 +34,11 @@ namespace ThanhNien.EntityFrameworkCore
                 b.ToTable(ThanhNienConsts.DbTablePrefix + "UserResults", ThanhNienConsts.DbSchema);
                 b.ConfigureByConvention(); //auto configure for the base class props 
             });
+            builder.Entity<ResultTime>(b =>
+            {
+                b.ToTable(ThanhNienConsts.DbTablePrefix + "ResultTimes", ThanhNienConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props 
+            });
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThanhNien.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -9,9 +10,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace ThanhNien.Migrations
 {
     [DbContext(typeof(ThanhNienMigrationsDbContext))]
-    partial class ThanhNienMigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210618111918_AddTime")]
+    partial class AddTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

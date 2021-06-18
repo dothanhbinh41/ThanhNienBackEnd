@@ -22,6 +22,7 @@ namespace ThanhNien.Questions
         readonly IRepository<Answer> answerRepository;
         readonly IRepository<UserResult> userResultRepository;
         readonly IRepository<Result> resultRepository;
+        readonly IRepository<ResultTime> resultTimeRepository;
         Random rd;
         int count = 30;
         public QuestionAppService(
@@ -29,6 +30,7 @@ namespace ThanhNien.Questions
             IRepository<Answer> answerRepository,
             IRepository<UserResult> userResultRepository,
             IRepository<Result> resultRepository,
+            IRepository<ResultTime> resultTimeRepository,
             IOptions<AppOptions> options
             )
         {
@@ -36,6 +38,7 @@ namespace ThanhNien.Questions
             this.answerRepository = answerRepository;
             this.userResultRepository = userResultRepository;
             this.resultRepository = resultRepository;
+            this.resultTimeRepository = resultTimeRepository;
             count = options.Value.Question.Count;
             rd = new Random();
         }
@@ -57,10 +60,14 @@ namespace ThanhNien.Questions
             return new PagedResultDto<UserResultDto>(userResultRepository.Count(), ObjectMapper.Map<List<UserResult>, List<UserResultDto>>(result));
         }
 
-        public async Task<ListResultDto<QuestionDto>> GetQuestionsAsync()
+        async Task<ListResultDto<QuestionDto>> GetQuestionsAsync()
         {
             var lst = new List<Question>();
             var questions = (await questionRepository.WithDetailsAsync(d => d.Answers)).ToList();
+            if (questions.Count < count)
+            {
+                throw new UserFriendlyException("Không đủ câu hỏi");
+            }
             while (lst.Count < count)
             {
                 var index = rd.Next(0, questions.Count);
@@ -78,6 +85,17 @@ namespace ThanhNien.Questions
             return new ListResultDto<QuestionDto>(ObjectMapper.Map<List<Question>, List<QuestionDto>>(lst));
         }
 
+        public async Task<ListResultDto<QuestionDto>> GetQuestionsAsync(string phone)
+        {
+            var exist = resultTimeRepository.OrderBy(d => d.Id).LastOrDefault(d => d.Phone == phone);
+            if (exist != null)
+            {
+                throw new UserFriendlyException("Bạn đã làm bài");
+            }
+            var time = await resultTimeRepository.InsertAsync(new ResultTime { Date = DateTime.UtcNow, Phone = phone });
+            return await GetQuestionsAsync();
+        }
+
         public async Task<UserResultDto> GetResultAsync(string phone)
         {
             var result = await userResultRepository.FirstOrDefaultAsync(d => d.Phone == phone);
@@ -89,10 +107,17 @@ namespace ThanhNien.Questions
             var exist = userResultRepository.Count(d => d.Phone == request.Phone) > 0;
             if (exist)
             {
-                throw new UserFriendlyException("Ban da nop bai");
+                throw new UserFriendlyException("Bạn đã nộp bài");
             }
             var mark = await CalculateMark(request.Answers);
-            var user = await userResultRepository.InsertAsync(new UserResult { Name = request.Name, Phone = request.Phone, Time = request.Time, Mark = mark, Class = request.Classroom, StudentCode = request.StudentId }, true);
+            var time = resultTimeRepository.OrderBy(d => d.Id).LastOrDefault(d => d.Phone == request.Phone);
+            if (time == null)
+            {
+                throw new UserFriendlyException("Bạn chưa làm bài");
+            }
+
+            var totalSeconds = (int)Math.Round(DateTime.UtcNow.Subtract(time.Date).TotalSeconds);
+            var user = await userResultRepository.InsertAsync(new UserResult { Name = request.Name, Phone = request.Phone, Time = totalSeconds, Mark = mark, Class = request.Classroom, StudentCode = request.StudentId }, true);
 
             await resultRepository.InsertManyAsync(request.Answers.Select(d => new Result { UserResultId = user.Id, QuestionId = d.QuestionId, AnswerId = d.AnswerId }));
 
@@ -105,6 +130,12 @@ namespace ThanhNien.Questions
             int mark = 0;
             var questions = (await questionRepository.WithDetailsAsync(d => d.Answers)).Where(d => questionsId.Contains(d.Id)).ToList();
             return questions.Count(d => answers.FirstOrDefault(c => c.QuestionId == d.Id).AnswerId == d.Answers.FirstOrDefault(c => c.Correct).Id);
+        }
+
+        public async Task<DateTime> GetStartTimeAsync(string phone)
+        {
+            var exist = resultTimeRepository.OrderBy(d => d.Id).LastOrDefault(d => d.Phone == phone);
+            return exist.Date;
         }
     }
 }
