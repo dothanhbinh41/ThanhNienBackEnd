@@ -26,10 +26,7 @@ namespace ThanhNien.Questions.Dtos
         public string Classroom { get; set; }
         public string StudentId { get; set; }
         public string Name { get; set; }
-        public string Phone { get; set; }
-        [Required]
-        [Range(1.0,double.MaxValue)]
-        public long Time { get; set; } 
+        public string Phone { get; set; } 
         public List<ResultDto> Answers { get; set; }
     }
 }
