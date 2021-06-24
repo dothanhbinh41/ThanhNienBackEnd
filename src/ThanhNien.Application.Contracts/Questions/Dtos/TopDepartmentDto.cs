@@ -8,6 +8,7 @@ namespace ThanhNien.Questions.Dtos
     {
         public string Name { get; set; }
         public int Rank { get; set; }
+        public int Student { get; set; }
         public int TotalMark { get; set; }
         public long TotalTime { get; set; }
     }

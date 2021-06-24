@@ -151,16 +151,18 @@ namespace ThanhNien.Questions
 
         public async Task<ListResultDto<TopDepartmentDto>> GetTopDepartment()
         {
-            var groups = (await userResultRepository.WithDetailsAsync(d => d.Department)).GroupBy(d => d.Department)
+            var groups = (await userResultRepository.WithDetailsAsync(d => d.Department)).ToList().GroupBy(d => d.Department)
                  .OrderByDescending(d => d.Sum(c => c.Mark ?? 0))
                  .ThenBy(d => d.Sum(c => c.Time))
                  .ToList();
+
             var tops = groups.Select(d => new TopDepartmentDto
             {
                 Name = d.Key.Name,
                 TotalMark = d.Sum(c => c.Mark ?? 0),
                 TotalTime = d.Sum(c => c.Time),
-                Rank = groups.FindIndex(c => c.Key.Id == d.Key.Id)
+                Student = d.Count(),
+                Rank = groups.FindIndex(c => c.Key.Id == d.Key.Id) + 1
             }).ToList();
 
             return new ListResultDto<TopDepartmentDto>(tops);
