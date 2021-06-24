@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
-using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+//using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -27,7 +27,7 @@ namespace ThanhNien.EntityFrameworkCore
 
             /* Include modules to your migration db context */
              
-            builder.ConfigureSettingManagement();
+          //  builder.ConfigureSettingManagement();
            // builder.ConfigureBackgroundJobs();
            // builder.ConfigureAuditLogging(); 
 

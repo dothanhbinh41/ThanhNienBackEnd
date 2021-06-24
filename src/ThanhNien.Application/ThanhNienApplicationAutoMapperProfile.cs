@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ThanhNien.Departments.Dtos;
 using ThanhNien.Questions;
 using ThanhNien.Questions.Dtos;
 using ThanhNien.UserResults;
@@ -20,6 +21,7 @@ namespace ThanhNien
             CreateMap<Question, QuestionDto>();
             CreateMap<Answer, AnswerDto>();
             CreateMap<CreateAnswerDto, Answer>();
+            CreateMap<Department, DepartmentDto>();
         }
     }
 }

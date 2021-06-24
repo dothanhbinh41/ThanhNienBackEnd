@@ -1,6 +1,6 @@
 ﻿using ThanhNien.Localization;
 using Volo.Abp.AuditLogging;
-using Volo.Abp.BackgroundJobs; 
+//using Volo.Abp.BackgroundJobs; 
 using Volo.Abp.IdentityServer;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
@@ -13,7 +13,7 @@ namespace ThanhNien
 {
     [DependsOn(
         typeof(AbpAuditLoggingDomainSharedModule),
-        typeof(AbpBackgroundJobsDomainSharedModule), 
+      //  typeof(AbpBackgroundJobsDomainSharedModule), 
         typeof(AbpIdentityServerDomainSharedModule), 
         typeof(AbpSettingManagementDomainSharedModule)
         )]

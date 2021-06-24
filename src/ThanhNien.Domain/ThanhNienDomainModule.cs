@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ThanhNien.MultiTenancy;
 using Volo.Abp.AuditLogging;
-using Volo.Abp.BackgroundJobs;  
+//using Volo.Abp.BackgroundJobs;  
 using Volo.Abp.Identity;
 using Volo.Abp.IdentityServer;
 using Volo.Abp.Modularity;
@@ -14,7 +14,7 @@ namespace ThanhNien
     [DependsOn(
         typeof(ThanhNienDomainSharedModule),
         typeof(AbpAuditLoggingDomainModule),
-        typeof(AbpBackgroundJobsDomainModule), 
+    //    typeof(AbpBackgroundJobsDomainModule), 
         typeof(AbpIdentityDomainModule), 
         typeof(AbpIdentityServerDomainModule), 
         typeof(AbpSettingManagementDomainModule)

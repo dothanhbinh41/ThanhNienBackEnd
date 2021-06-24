@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
-using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+//using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.MySQL;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -13,7 +13,7 @@ namespace ThanhNien.EntityFrameworkCore
         typeof(ThanhNienDomainModule), 
         typeof(AbpSettingManagementEntityFrameworkCoreModule),
         typeof(AbpEntityFrameworkCoreMySQLModule),
-        typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
+  //      typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
         typeof(AbpAuditLoggingEntityFrameworkCoreModule)
         )]
     public class ThanhNienEntityFrameworkCoreModule : AbpModule
