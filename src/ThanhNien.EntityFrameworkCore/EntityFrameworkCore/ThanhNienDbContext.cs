@@ -20,6 +20,7 @@ namespace ThanhNien.EntityFrameworkCore
     [ConnectionStringName("Default")]
     public class ThanhNienDbContext : AbpDbContext<ThanhNienDbContext>
     {
+        public DbSet<Department> Departments { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Result> Results { get; set; }

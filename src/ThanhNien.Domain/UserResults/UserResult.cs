@@ -17,6 +17,10 @@ namespace ThanhNien.UserResults
         public string StudentCode { get; set; }
         public long Time { get; set; }// second
         public int? Mark { get; set; }
+        public int DepartmentId { get; set; } 
+
+        [ForeignKey(nameof(DepartmentId))]
+        public virtual Department Department { get; set; }
         public virtual ICollection<Result> Results { get; set; }
     }
 }

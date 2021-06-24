@@ -117,7 +117,17 @@ namespace ThanhNien.Questions
             }
 
             var totalSeconds = (int)Math.Round(DateTime.UtcNow.Subtract(time.Date).TotalSeconds);
-            var user = await userResultRepository.InsertAsync(new UserResult { Name = request.Name, Phone = request.Phone, Time = totalSeconds, Mark = mark, Class = request.Classroom, StudentCode = request.StudentId }, true);
+            var user = await userResultRepository.InsertAsync(new UserResult
+            {
+                Name = request.Name,
+                Phone = request.Phone,
+                Time = totalSeconds,
+                Mark = mark,
+                Class = request.Classroom,
+                StudentCode =
+                request.StudentId,
+                DepartmentId = request.DepartmentId
+            }, true);
 
             await resultRepository.InsertManyAsync(request.Answers.Select(d => new Result { UserResultId = user.Id, QuestionId = d.QuestionId, AnswerId = d.AnswerId }));
 
@@ -136,6 +146,23 @@ namespace ThanhNien.Questions
         {
             var exist = resultTimeRepository.OrderBy(d => d.Id).LastOrDefault(d => d.Phone == phone);
             return exist.Date;
+        }
+
+        public async Task<ListResultDto<TopDepartmentDto>> GetTopDepartment()
+        {
+            var groups = (await userResultRepository.WithDetailsAsync(d => d.Department)).GroupBy(d => d.Department)
+                 .OrderByDescending(d => d.Sum(c => c.Mark ?? 0))
+                 .ThenBy(d => d.Sum(c => c.Time))
+                 .ToList();
+            var tops = groups.Select(d => new TopDepartmentDto
+            {
+                Name = d.Key.Name,
+                TotalMark = d.Sum(c => c.Mark ?? 0),
+                TotalTime = d.Sum(c => c.Time),
+                Rank = groups.FindIndex(c => c.Key.Id == d.Key.Id)
+            }).Take(5).ToList();
+
+            return new ListResultDto<TopDepartmentDto>(tops);
         }
     }
 }

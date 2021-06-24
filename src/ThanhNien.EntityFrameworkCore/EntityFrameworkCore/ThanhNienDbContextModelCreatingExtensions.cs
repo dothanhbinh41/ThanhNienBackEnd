@@ -11,9 +11,6 @@ namespace ThanhNien.EntityFrameworkCore
         public static void ConfigureThanhNien(this ModelBuilder builder)
         {
             Check.NotNull(builder, nameof(builder));
-
-            /* Configure your own tables/entities inside here */
-
             builder.Entity<Question>(b =>
             {
                 b.ToTable(ThanhNienConsts.DbTablePrefix + "Questions", ThanhNienConsts.DbSchema);
@@ -37,6 +34,11 @@ namespace ThanhNien.EntityFrameworkCore
             builder.Entity<ResultTime>(b =>
             {
                 b.ToTable(ThanhNienConsts.DbTablePrefix + "ResultTimes", ThanhNienConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props 
+            });
+            builder.Entity<Department>(b =>
+            {
+                b.ToTable(ThanhNienConsts.DbTablePrefix + "Departments", ThanhNienConsts.DbSchema);
                 b.ConfigureByConvention(); //auto configure for the base class props 
             });
         }

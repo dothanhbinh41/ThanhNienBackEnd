@@ -12,6 +12,7 @@ namespace ThanhNien.Questions.Dtos
         public string Name { get; set; }
         public string Phone { get; set; }
         public long Time { get; set; }
+        public int DepartmentId { get; set; }
         public int Mark { get; set; }
     }
 
@@ -26,7 +27,8 @@ namespace ThanhNien.Questions.Dtos
         public string Classroom { get; set; }
         public string StudentId { get; set; }
         public string Name { get; set; }
-        public string Phone { get; set; } 
+        public string Phone { get; set; }
+        public int DepartmentId { get; set; }
         public List<ResultDto> Answers { get; set; }
     }
 }
