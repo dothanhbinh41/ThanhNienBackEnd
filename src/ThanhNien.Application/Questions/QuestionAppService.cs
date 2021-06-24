@@ -56,7 +56,8 @@ namespace ThanhNien.Questions
 
         public async Task<PagedResultDto<UserResultDto>> GetAllUserResultsAsync(PagedResultRequestDto request)
         {
-            var result = userResultRepository.OrderByDescending(d => d.Mark).ThenBy(d => d.Time).PageBy(request.SkipCount, request.MaxResultCount).ToList();
+            var result = (await userResultRepository.WithDetailsAsync(d => d.Department))
+                .OrderByDescending(d => d.Mark).ThenBy(d => d.Time).PageBy(request.SkipCount, request.MaxResultCount).ToList();
             return new PagedResultDto<UserResultDto>(userResultRepository.Count(), ObjectMapper.Map<List<UserResult>, List<UserResultDto>>(result));
         }
 
@@ -160,7 +161,7 @@ namespace ThanhNien.Questions
                 TotalMark = d.Sum(c => c.Mark ?? 0),
                 TotalTime = d.Sum(c => c.Time),
                 Rank = groups.FindIndex(c => c.Key.Id == d.Key.Id)
-            }).Take(5).ToList();
+            }).ToList();
 
             return new ListResultDto<TopDepartmentDto>(tops);
         }

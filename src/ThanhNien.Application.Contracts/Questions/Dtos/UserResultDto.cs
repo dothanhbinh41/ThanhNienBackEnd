@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using ThanhNien.Departments.Dtos;
 
 namespace ThanhNien.Questions.Dtos
 {
@@ -12,7 +13,7 @@ namespace ThanhNien.Questions.Dtos
         public string Name { get; set; }
         public string Phone { get; set; }
         public long Time { get; set; }
-        public int DepartmentId { get; set; }
+        public DepartmentDto Department { get; set; }
         public int Mark { get; set; }
     }
 
